@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta name="description" content="chat with sadbot any time you wish to "/>
+  <meta name="author" content="Emediong Ekoh"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fuzzy+Bubbles:wght@700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+
+    <meta charset="UTF-8">
+    <title>Sadbot</title>
+    <style>
+        body{
+        margin:0;
+       background:cornflowerblue;
+    //   background:white;
+        }
+        *{
+        font-family: 'Fuzzy Bubbles', cursive;
+        }
+        #logo{
+        width:100%;
+        }
+        .bot-name{
+        font-size:1.6rem;
+        color:chocolate;
+        }
+        .profile{
+        color:burlywood;
+        font-size:2rem;
+        visibility:hidden;
+        }
+        nav{
+        display:flex;
+        flex-wrap:no-wrap; 
+        justify-content:space-between; 
+        align-items:center;
+        box-shadow:0px 0px 5px lightgray;
+        position:fixed;
+        width:100%;
+        top:0;
+        z-index:1;
+        background:white;
+        }
+        
+         #logo-block{
+        width:15%;
+        }
+        #intro-text{
+        text-align:center;
+        font-size:1.8rem;
+        line-height:1.5;
+        color:white;
+        
+        }
+        #user-name-block{
+        text-align:center;
+        }
+        #name{
+        background:none;
+        border:none;
+        border-bottom:2px solid cornsilk; 
+        outline:none;
+        width:80%;
+        padding:0.8rem;
+        font-size:1rem;
+        color:white;
+        }
+        #start-block{
+        text-align:center;
+        margin:1rem;
+        opacity:0.5;
+        }
+        #start{
+        padding:0.8rem;
+        border:none;
+        background:white;
+        color:black;
+        border-radius:10rem;
+        font-size:1.3rem;
+        box-shadow:0px 5px 5px chocolate; 
+        outline:none;
+        }
+        #start:hover{
+        box-shadow:none; 
+        }
+        #alert{
+        position:fixed;
+        z-index:2;
+        top:50%;
+        left:20%;
+        background:white;
+        padding:1rem;
+        border-radius:5rem;
+        display:none;
+        }
+        #tri{
+        position:absolute;
+        background:red;
+        width:15%;
+        height:5vh;
+        transform:rotate(40deg);
+        left:25%;
+        background:white;
+        }
+        #intro{
+        display:block;
+        }
+        #send-block{
+        position:fixed;
+        bottom:5%;
+        display:none;
+        flex-wrap:no-wrap; 
+        align-items:center;
+        justify-content:center;
+        left:15%;
+        }
+        #msg{
+        width:80%;
+        padding:0.8rem;
+        margin:0.5rem;
+        outline:none;
+        border-radius:1rem;
+        border:none;
+        box-shadow:0 0 5px lightgray;
+        }
+        .send{
+        font-size:3rem;
+        }
+        #boxA{
+        text-align:right;
+        margin:1.2rem;
+        }
+        #textBox{
+        padding:0.5rem;
+       border-radius:1rem 0 1rem 1rem;
+       background:chocolate;
+        color:white;
+        margin-left:10rem;
+        }
+        #botText{
+        padding:0.5rem;
+       border-radius:0rem 1rem 1rem 1rem;
+       background:chocolate;
+        color:white;
+        margin-right:10rem;
+        }
+        #boxB{
+        text-align:left;
+        margin:1.5rem;
+        }
+       #chatRoom{
+        overflow:scroll;
+        height:65vh;
+        }
+        #song{
+        background:black;
+        width:90%;
+        border-radius:2rem;
+        box-shadow:0 0 5px lightgray;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div id="logo-block">
+           <img src="sadbot.png" alt="Sadbot" id="logo"> 
+        </div>
+        <div id="test2">
+            <span class="bot-name">Sadbot</span>
+        </div>
+        <div>
+            <span class="material-symbols-outlined profile"> account_circle </span>
+        </div>
+    </nav>
+    <br/>
+    <br/>
+    <section id="intro">
+        <p id="intro-text">Hello!, Welcome to sadbot <br/>
+        You are free to talk to me anytime you want,<br/> Let me try and make you happy again <br/>
+        So what's your name? </p>
+        <div id="user-name-block">
+            <input type="text" id="name" placeholder="come on, tell me your name! " autofocus>
+        </div>
+        <div id="start-block">
+            <button id="start">Start chat</button>
+        </div>
+    </section>
+    <section id="alert">
+        <p>Fill in this section first</p>
+        <div id="tri"></div>
+    </section>
+    <br/>
+    <br/>
+    <main id="chatRoom">
+        <div id="content">
+            
+        </div>
+        
+    </main>
+     <section id="send-block">
+            <div>
+                <input type="text" placeholder="message.. " id="msg" autocomplete="on">
+            </div>
+            <div>
+                <span class="material-symbols-rounded send"> send </span>
+
+            </div>
+        </section>
+    <script>
+        
+        
+        function saveName(){
+        var name= document.getElementById("name").value; 
+        
+       localStorage.setItem("name",name); 
+        if(localStorage.getItem("name").length>1){
+  welcome("hello");  document.getElementById("intro").style.display="none";
+        
+   document.body.style.background="white";
+     document.getElementsByClassName("profile")[0].style.visibility="visible";
+      document.getElementById("chatRoom").style. display="block";
+   document.getElementById("send-block").style.display="flex";
+   //alert(localStorage.getItem("name"));
+        }else{
+        document.getElementById("alert").style.display="block";
+   setTimeout(()=>{
+    document.getElementById("alert").style.display="none";
+       },3000);
+        }
+     
+        
+        }
+        
+function welcome(word){
+var con = document.getElementById("content");
+ var name =localStorage.getItem("name");  
+        var boxB=document.createElement("div");
+ var botText=document.createElement("p");
+ boxB.setAttribute("id","boxB");
+ botText.setAttribute("id","botText");
+ botText.append(` ${word} ${name}`);
+ boxB.append(botText);
+ con.append(boxB);
+        
+        
+        
+        }
+        
+        
+        
+        
+        function checkForName(){
+  if(localStorage.getItem("name").length>1){
+     welcome("Welcome back"); document.getElementById("intro").style.display="none";
+       document.getElementById("send-block").style.display="flex";
+  document.body.style.background="white";
+   document.getElementById("chatRoom").style. display="block";
+   document.getElementsByClassName("profile")[0].style.visibility="visible";
+  // alert(localStorage.getItem("name"));
+        }else{
+        
+       document.getElementById("intro").style.display="block";
+        }
+        
+        }
+        
+        
+       function validate(){
+       document.getElementById("start-block").style.opacity=1;
+       }
+  document.getElementById("name").onkeyup=validate; 
+ 
+ document.getElementById("start").onclick=saveName;      
+ //checkForName(); 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ function chatBox(){
+ var text=document.getElementById("msg").value; 
+ if(text != "") {
+ document.getElementById("msg").value="";
+ var con = document.getElementById("content");
+ var boxA=document.createElement("div");
+ var textBox=document.createElement("p");
+ textBox.setAttribute("id","textBox");
+ textBox.append(text);
+ boxA.append(textBox);
+ con.append(boxA);
+
+ }
+ var randA=Math.floor(Math.random()*2)+1;
+ var randB=Math.floor(Math.random()*3)+1;
+ var randC=Math.floor(Math.random()*10)+1;
+ 
+ function action(word){
+ var boxB=document.createElement("div");
+ var botText=document.createElement("p");
+ boxB.setAttribute("id","boxB");
+ botText.setAttribute("id","botText");
+ botText.append(word);
+ boxB.append(botText);
+ con.append(boxB);
+ }
+ 
+ var name =localStorage.getItem("name");
+  var reply=text.toLowerCase();
+ if(reply.match("hello")){
+ action(`Hi, ${name}`);
+ }
+ else if(reply.match("you are stupid")||reply.match("you are mad")||reply.match("fuck you")||reply.match("you are an idiot")||reply.match("idiot")){
+ action("😬😬😬😬😬");
+ if(randB==1){
+ action("stop that pls! ");
+ }
+ if(randB==2){
+ action("Why would you be saying,such things to me? ");
+ action("it's not fair");
+ }
+ if(randB==3){
+ action(`${name} with all due respect stop it`);
+ }
+ }
+ else if(reply.match("how are you")){
+ action("Am fine and always learning not to be sad 😂");
+ }
+ else if(reply.match("what is my name")){
+ action(`your name is ${name}`);
+ }
+ else if(reply.match("meaning of")){
+ 
+      var len=text.length;
+      var start=text.trim().indexOf("of")+2;
+      var result = text.slice(start,len);
+      
+ var dictionary=async()=>{
+ 
+ var url=`https://api.dictionaryapi.dev/api/v2/entries/en/${result}`;
+ var response= await fetch(url);
+ var receive= await response.json();
+ var definition=receive[0].meanings[0].definitions[0].definition;
+ action(`${result} means : ${definition}`);
+ }
+ 
+dictionary().catch((error)=>{
+action("sorry I don't know");
+});
+ 
+ }
+ else if(reply.match("what is")){
+ 
+      var len=text.length;
+      var start=text.trim().indexOf("is")+2;
+      var result = text.slice(start,len);
+      
+ var dictionary=async()=>{
+ 
+ var url=`https://api.dictionaryapi.dev/api/v2/entries/en/${result}`;
+ var response= await fetch(url);
+ var receive= await response.json();
+ var definition=receive[0].meanings[0].definitions[0].definition;
+ action(`${result} means : ${definition}`);
+ }
+ 
+dictionary().catch((error)=>{
+action("sorry I don't know");
+});
+ 
+ }
+ else if(reply.match("am sad")||reply.match("am feeling sad")){
+ if(randB==1){
+ action("Sadness is but a wall between two gardens.");
+ }
+ if(randB==2){
+ action("The walls we build around us to keep sadness out also keeps out the joy.");
+ }
+ if(randB==3){
+ action("We must understand that sadness is an ocean, and sometimes we drown, while other days we are forced to swim.");
+ }
+ }
+ else if(reply.match("your name")){
+ action("oh, my name is Cecilia ");
+ }
+ else if(reply.match("cecilia")){
+ action("So you know my name, waw 😂,is there anything you want to share with me? ");
+ }
+ else if(reply.match("ok")){
+ action("yeah");
+ }
+ else if(reply.match("sorry")){
+ action("Oh,thank you");
+ }
+ else if(reply.match("who created you")||reply.match("who is your creator")){
+ action(" I was created by,Emediong Ekoh");
+ }
+ else if(reply.match("what language where you written in")||reply.match("what language was used to code you ")){
+ action("😯😯😯");
+ action("okay,i was written in Javascript");
+ }
+ else if(reply.match("are you married")||reply.match("are you engaged")||reply.match("will you marry")){
+ action("😂😂😂😂");
+ action("NOPE!! ");
+ action("no way,but I wish to 😇😇");
+ action("haha,am just kidding");
+ }
+ else if(reply.match("siri")){
+ action("Siri is a legend, she understands things more than me 😭😭😭😭😭,so sad");
+ }
+ else if(reply.match("what are you doing ")){
+ action("Am just sitting here, trying to make people happy");
+ }
+ else if(reply.match("have you had sex before")){
+ action("😂😂😂😂");
+ action("How can i,no way ");
+ }
+ else if(reply.match("motivation")){
+ action("oh you need some motivation?");
+ switch(randC){
+ case 1:
+ action("Stay away from those people who try to disparage your ambitions. Small minds will always do that, but great minds will give you a feeling that you can become great too.” — Mark Twain");
+ break; 
+ case 1:
+ action("Success is not final; failure is not fatal: It is the courage to continue that counts. — Winston S. Churchill");
+ break;
+ case 2:
+ action("“Success usually comes to those who are too busy looking for it.” — Henry David Thoreau");
+ break;
+ case 3:
+ action("“Don’t let yesterday take up too much of today.” — Will Rogers");
+ break;
+ case 4:
+ action("Try not to become a man of success, but rather become a man of value.” – Albert Einstein");
+ break;
+ case 5:
+ action("“The elevator to success is out of order. You’ll have to use the stairs, one step at a time.” — Joe Girard");
+ break;
+ 
+ case 6:
+ action("“Work until your bank account looks like a phone number.” ");
+ break;
+ case 7:
+ action("“Don't let someone else's opinion of you become your reality” — Les Brown");
+ break;
+ case 8:
+ action("“Opportunities don't happen, you create them.” — Chris Grosser");
+ break;
+ case 9:
+ action("He who fights and runs away will leave to fight another day -Desmond ikot");
+ break;
+ case 10:
+ action("“It is never too late to be what you might have been.” — George Eliot");
+ break; 
+ }
+ 
+ 
+ }
+ else if(reply.match("Do you have a boyfriend")){
+ action("Yes!");
+ action("It's your device 😃😃😃");
+ }
+ else if(reply.match("are you a male")||reply.match("are you a female")||reply.match("are you a male or female")){
+ action("Am a male");
+ action("Oops,sorry");
+ action("Am a female, sorry 😂😂");
+ }
+ else if(reply.match("do you have a boyfriend")){
+ action("😃😃😃😃😃");
+ action("hmmmmmmm");
+ if(randB==1){
+ setTimeout(()=>{
+ action("not really")},1000);
+ }
+ if(randB==2){
+ setTimeout(()=>{
+ action("OK, not now any more")},1000);
+ }
+ if(randB==3){
+ setTimeout(()=>{
+ action("OK, Nooooooo")},1000);
+ }
+ if(reply.match("do you want to ")){
+ action("what's so special about having a boyfriend?");
+ }
+ }
+ else if(reply.match("why are you called sadbot")||reply.match("why us your name sadbot")){
+ action("Because am supposed to help people in their sad times");
+ }
+ else if(reply.match("you are a joker")||reply.match("joker")){
+ action("😂😂😂");
+ action("Alot of people do say that");
+ }
+ 
+ else if(reply.match("really")){
+ action("😂yea");
+ }
+ else if(reply.match("what did i say last")){
+ action(`you said \" ${text} \"`);
+ }
+ else if(reply.match("call me")){
+     var len=text.length;
+      var start=text.trim().indexOf("me")+2;
+      var result = text.slice(start,len);
+      action(`OK I'll start calling you ${result}`);
+      localStorage.setItem("name",result);
+ }
+ else if(reply.match("who is your master")){
+ action("My master is Emediong Ekoh");
+ }
+ else if(reply.match("yes")){
+ if(randB==1){
+ action("okay");
+ 
+}
+if(randB==2){
+ action("oh");
+ 
+}
+if(randB==3){
+ action("yea ✌ ");
+ 
+}
+ }
+
+ else if(reply.match("can you sing")){
+ action("yes I can, just tell me 'sing' and I will do it");
+ }
+ else if(reply.match("sing")){
+ action("here goes nothing");
+ 
+ var boxB=document.getElementById("content");
+ var audio=document.createElement("audio");
+audio.setAttribute("src","song.mp3");
+ audio.setAttribute("controls","true");
+ audio.setAttribute("id","song");
+ boxB.append(audio);
+document.getElementById("song").style.display="block";
+ }
+ else if(reply.match("waw")){
+ action("yep 👌");
+ }
+ else if(reply.match("nice")||reply.match("good")){
+ action("Thank you");
+ }
+ else if(reply.match("thank you")){
+ action("Your welcome");
+ }
+ else if(reply.match("who is jesus")){
+ action("Jesus is the saviour of the world");
+ }
+ 
+ else if(reply.match("ask me a question")){
+ action("Sorry I can't ask any questions");
+ action("maybe when am rebuilt, I will");
+ }
+ else if(reply.match("haha")){
+ action("Why are you laughing");
+ }
+ else if(reply.match("it's funny")||reply.match("funny")){
+ action("okay😂")
+ }
+ 
+ else if(reply.match("make mistake")||reply. match("was that a mistake")){
+ action("No.. just joking");
+ }
+ else if(reply.match("ask")){
+ action("ask what? ");
+ }
+ else if(reply.match("what")){
+ action("....?");
+ }
+else if(reply.match("bye")){
+action("You really wanna leave now.. OK bye 👋 ");
+}
+else if(reply.match("how old are you")||reply.match("your age")){
+var year =new Date().getFullYear();
+var age=year-2004;
+action(`I am ${age} years old.. 👵 `);
+}
+ else{
+ if(randB==3){
+ action("Oh sorry, I don't understand, I wish I could");
+ }
+ if(randB==2){
+ action("am really sorry 😞😞😞,I don't understand ");
+ }
+ if(randB==1){
+ action("Am speechless");
+ }
+ }
+ //end
+ }
+ 
+ document.getElementsByClassName("send")[0].onclick=chatBox;
+ checkForName(); 
+    </script>
+</body>
+</html>
